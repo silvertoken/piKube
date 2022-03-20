@@ -97,7 +97,7 @@ My Setup:
 
 Follow the steps listed to prepare a Raspberry Pi cluster for snap installation.  Make sure you complete the steps to enable cgroup memory listed and setup SSH keys so ansible can access each device.
 
-* [MicroK8s Raspberry Pi Tutorial](hhttps://ubuntu.com/tutorials/how-to-kubernetes-cluster-on-raspberry-pi#1-overview)
+* [MicroK8s Raspberry Pi Tutorial](https://ubuntu.com/tutorials/how-to-kubernetes-cluster-on-raspberry-pi#1-overview)
 
 ### Prerequisites
 
