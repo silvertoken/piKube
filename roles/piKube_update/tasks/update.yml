@@ -1,0 +1,10 @@
+---
+- name: Update all packages
+  apt:
+    upgrade: dist
+    update_cache: true
+    force_apt_get: true
+
+- name: Reboot the server
+  reboot:
+    post_reboot_delay: 30

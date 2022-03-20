@@ -1,0 +1,23 @@
+---
+- name: Get {{ inventory_hostname }} node state
+  command: >-
+    /snap/bin/microk8s kubectl get node
+    {{ inventory_hostname }}
+    -o json
+  register: kubectl_get_node
+  failed_when: false
+  changed_when: false
+
+- name: Update {{ inventory_hostname }}
+  when:
+    - (kubectl_get_node['stdout'] | from_json).status.conditions | selectattr('type', 'equalto', 'Ready') | map(attribute='status') | join(',')
+    - not (kubectl_get_node['stdout'] | from_json).spec.unschedulable is defined
+  block:
+    - name: Cordon and Drain {{ inventory_hostname }}
+      include_tasks: drain.yml
+
+    - name: Update {{ inventory_hostname }}
+      include_tasks: update.yml
+
+    - name: Uncordon {{ inventory_hostname }}
+      include_tasks: uncordon.yml

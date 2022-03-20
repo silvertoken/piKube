@@ -1,0 +1,26 @@
+---
+- name: Start microk8s on {{ inventory_hostname }}
+  command: >-
+    /snap/bin/microk8s start
+
+- name: Wait for {{ inventory_hostname }} to be ready
+  command: >-
+    /snap/bin/microk8s status
+    --wait-ready
+  changed_when: false
+
+- name: Uncordon node
+  command: >-
+    /snap/bin/microk8s kubectl uncordon
+    {{ inventory_hostname }}
+
+- name: Wait for node to uncordon
+  command: >-
+    /snap/bin/microk8s kubectl get node
+    {{ inventory_hostname }}
+    -o json
+  register: wait_for_uncordon
+  retries: 10
+  delay: 10
+  changed_when: false
+  until: not (kubectl_get_node['stdout'] | from_json).spec.unschedulable is defined

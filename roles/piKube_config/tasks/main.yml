@@ -1,0 +1,12 @@
+---
+- name: Generate microk8s config on master
+  delegate_to: "{{ groups['master'][0] }}"
+  command: >-
+    /snap/bin/microk8s config
+  register: pikube_config
+
+- name: Write config locally
+  local_action:
+    module: copy
+    content: "{{ pikube_config.stdout }}"
+    dest: "{{ kube_config }}"

@@ -1,0 +1,31 @@
+---
+- name: Deploy microk8s snap and start nodes
+  hosts: all
+  become: true
+
+  roles: 
+    - piKube_reqs
+    - piKube_deploy
+
+- name: Join nodes to master
+  hosts: workers
+  become: true
+  serial: 1
+
+  roles:
+    - role: piKube_join
+    
+- name: Enable microk8s add-ons
+  hosts: master
+  become: true
+
+  roles:
+    - piKube_addon
+
+- name: Update config and add storage drivers
+  hosts: localhost
+  connection: local
+
+  roles:
+    - piKube_config
+    - piKube_storage

@@ -1,0 +1,15 @@
+---
+- name: Generate microk8s token on master
+  delegate_to: "{{ groups['master'][0] }}"
+  command: >-
+    /snap/bin/microk8s add-node
+  register: join_cluster
+
+- name: Join {{ inventory_hostname }} to master
+  command: "/snap/bin/{{ join_cluster.stdout_lines[1] }}"
+
+- name: Wait for {{ inventory_hostname }} to be ready
+  command: >-
+    /snap/bin/microk8s status
+    --wait-ready
+  changed_when: false

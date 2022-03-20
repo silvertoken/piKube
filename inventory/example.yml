@@ -1,0 +1,30 @@
+all:
+  vars:
+    # user name to ssh as
+    ansible_user: ubuntu
+    # python interpreter
+    ansible_python_interpreter: /usr/bin/python3
+    # where DNS should forward requests too
+    dns_server: "8.8.8.8"
+    # IP range to use for metallb
+    lb_range: "10.10.10.5-10.10.10.254"
+    # Path to export kube config file too
+    kube_config: ~/.kube/config
+  hosts:
+    # add your hosts here, add only one host and master if you don't want a cluster
+    devpi1:
+      ansible_host: "10.10.10.2"
+    devpi2:
+      ansible_host: "10.10.10.3"
+    devpi3:
+      ansible_host: "10.10.10.4"
+# add one server here for join's
+master:
+  hosts:
+    devpi1:
+
+# add extra nodes here that will be joined to master
+workers:
+  hosts:
+    devpi2:
+    devpi3:

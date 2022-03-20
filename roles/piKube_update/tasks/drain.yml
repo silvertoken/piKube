@@ -1,0 +1,28 @@
+---
+- name: Cordon {{ inventory_hostname }}
+  command: >-
+    /snap/bin/microk8s kubectl cordon
+    {{ inventory_hostname }}
+
+- name: Wait for {{ inventory_hostname }} to cordon
+  command: >-
+    /snap/bin/microk8s kubectl get node
+    {{ inventory_hostname }}
+    -o json
+  register: wait_for_cordon
+  retries: 10
+  delay: 10
+  changed_when: false
+  until: (wait_for_cordon['stdout'] | from_json).spec.unschedulable
+
+- name: Drain {{ inventory_hostname }}
+  command: >-
+    /snap/bin/microk8s kubectl drain
+    {{ inventory_hostname }}
+    --force
+    --ignore-daemonsets
+    --delete-emptydir-data
+
+- name: Stop microk8s on {{ inventory_hostname }}
+  command: >-
+    /snap/bin/microk8s stop

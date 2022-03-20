@@ -1,0 +1,15 @@
+---
+- name: Check for microk8s binaries on {{ inventory_hostname }}
+  stat:
+    path: /snap/bin/microk8s
+  register: microk8s
+  
+- name: Stop microk8s on {{ inventory_hostname }}
+  command: >-
+    /snap/bin/microk8s stop
+  when: microk8s.stat.exists
+
+- name: Remove microk8s snap
+  snap:
+    name: microk8s
+    state: absent

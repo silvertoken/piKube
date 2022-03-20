@@ -1,0 +1,7 @@
+# ---> Ansible
+*.retry
+.venv/
+*.code-workspace
+.vscode/
+inventory/*.yml
+!inventory/example.yml

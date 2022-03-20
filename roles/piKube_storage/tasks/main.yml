@@ -1,0 +1,34 @@
+---
+- name: Get NFS CSI driver
+  git:
+    repo: https://github.com/kubernetes-csi/csi-driver-nfs.git
+    dest: csi-driver-nfs
+
+- name: Setup RBAC for NFS storage
+  kubernetes.core.k8s:
+    src: csi-driver-nfs/deploy/rbac-csi-nfs-controller.yaml
+    kubeconfig: "{{ kube_config }}"
+    state: present
+
+- name: Setup driver for NFS storage
+  kubernetes.core.k8s:
+    src: csi-driver-nfs/deploy/csi-nfs-driverinfo.yaml
+    kubeconfig: "{{ kube_config }}"
+    state: present
+
+- name: Setup controller for NFS storage
+  kubernetes.core.k8s:
+    src: csi-driver-nfs/deploy/csi-nfs-controller.yaml
+    kubeconfig: "{{ kube_config }}"
+    state: present
+
+- name: Setup node for NFS storage
+  kubernetes.core.k8s:
+    src: csi-driver-nfs/deploy/csi-nfs-node.yaml
+    kubeconfig: "{{ kube_config }}"
+    state: present
+
+- name: Remove NFS local files
+  file:
+    state: absent
+    path: csi-driver-nfs

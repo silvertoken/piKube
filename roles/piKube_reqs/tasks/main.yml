@@ -1,0 +1,6 @@
+---
+- name: Setup nfs-common storage
+  apt:
+    name: nfs-common
+    update_cache: yes
+
