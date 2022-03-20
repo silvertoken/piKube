@@ -1,6 +1,5 @@
 ---
 - name: Generate microk8s config on master
-  delegate_to: "{{ groups['master'][0] }}"
   command: >-
     /snap/bin/microk8s config
   register: pikube_config

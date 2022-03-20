@@ -22,10 +22,15 @@
   roles:
     - piKube_addon
 
-- name: Update config and add storage drivers
+- name: Export config
+  hosts: master
+
+  roles:
+    - piKube_config
+
+- name: Add NFS storage drivers
   hosts: localhost
   connection: local
 
   roles:
-    - piKube_config
     - piKube_storage
