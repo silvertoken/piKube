@@ -79,6 +79,7 @@ My Setup:
 * Mikrotik RouterBOARD 3011UiAS
 * Private IP space 10.0.0.0/8
 * 10.10.10.0/23 assigned to infrastructre and Metal LB
+* Synology DS418j for NFS
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
