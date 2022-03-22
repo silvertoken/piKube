@@ -27,10 +27,4 @@
 
   roles:
     - piKube_config
-
-- name: Add NFS storage drivers
-  hosts: localhost
-  connection: local
-
-  roles:
-    - piKube_storage
+    

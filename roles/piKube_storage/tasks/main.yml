@@ -16,6 +16,7 @@
     kubeconfig: "{{ kube_config }}"
     state: present
 
+# TODO: Node and Controller both have paths that need to be corrected
 - name: Setup controller for NFS storage
   kubernetes.core.k8s:
     src: csi-driver-nfs/deploy/csi-nfs-controller.yaml
